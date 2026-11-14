@@ -1,0 +1,212 @@
+/* LIQUID CHROME 2.0 | Spicetify Theme | MIT
+   All appearance controls use --lc-* variables. No remote resources.
+   Variables are written on documentElement by theme.js or LiquidChrome-Controls.js.
+   Layout-preserving selectors: no modification of Spotify playback logic. */
+:root {
+  color-scheme:dark;
+  --lc-theme-ready:1;
+  --lc-accent:var(--spice-button,#bcb5ff); --lc-accent-rgb:188,181,255; --lc-accent-ink:#090d16;
+  --lc-glass:.82; --lc-blur:23px; --lc-radius:19px; --lc-glow:.48; --lc-shine:.67;
+  --lc-spacing:1; --lc-sat:1.16;
+  --lc-fg:var(--spice-text,#f2f4ff);
+  --lc-muted:var(--spice-subtext,#a8b1c9);
+  --lc-base:var(--spice-main,#090c14);
+  --lc-surface:rgba(17,21,33,var(--lc-glass));
+  --lc-hairline:rgba(222,232,255,calc(.08 + var(--lc-shine) * .17));
+  --lc-ease:cubic-bezier(.2,.78,.2,1);
+  --lc-shadow:0 17px 45px rgba(0,0,0,.32),inset 0 1px rgba(255,255,255,calc(var(--lc-shine)*.16));
+  --lc-radius-inner:max(7px,calc(var(--lc-radius) - 6px));
+  --lc-font:Inter,'Segoe UI Variable','SF Pro Display','Segoe UI',Arial,sans-serif;
+}
+/* Finishes are designed as materials, not merely label changes. */
+:root[data-lc-finish="mirror"] {--lc-shine:.98;--lc-sat:1.3;--lc-shadow:0 24px 65px rgba(0,0,0,.5),inset 0 2px rgba(255,255,255,.27),inset 0 -2px rgba(20,28,49,.6);}
+:root[data-lc-finish="satin"] {--lc-shine:.17;--lc-sat:.94;--lc-shadow:0 10px 25px rgba(0,0,0,.21),inset 0 1px rgba(255,255,255,.055);}
+:root[data-lc-finish="obsidian"] {--lc-shine:.48;--lc-sat:.85;--lc-shadow:0 19px 53px rgba(0,0,0,.54),inset 0 1px rgba(255,255,255,.12);}
+:root[data-lc-motion="off"] *, :root[data-lc-motion="off"] *::before,:root[data-lc-motion="off"] *::after {animation-duration:.001ms !important;transition-duration:.001ms !important;}
+body,#main,.Root,.Root__top-container {color:var(--lc-fg);background-color:var(--lc-base) !important;}
+.Root__top-container {isolation:isolate;position:relative;
+  background-image:radial-gradient(ellipse 58% 75% at -7% -10%,rgba(var(--lc-accent-rgb),calc(var(--lc-glow)*.29)),transparent 72%),
+    radial-gradient(ellipse 62% 68% at 96% 105%,rgba(var(--lc-accent-rgb),calc(var(--lc-glow)*.21)),transparent 80%),
+    linear-gradient(138deg,rgba(255,255,255,.021),transparent 35%,rgba(255,255,255,.024)) !important;
+}
+.Root__top-container::before {content:"";position:absolute;inset:-14% -8%;z-index:0;pointer-events:none;
+  background:conic-gradient(from 44deg at 68% 48%,transparent 0deg,rgba(var(--lc-accent-rgb),calc(var(--lc-glow)*.13)) 66deg,transparent 140deg,rgba(238,247,255,.042) 225deg,transparent 315deg);
+  filter:blur(70px);opacity:.85;animation:lc-aurora 27s ease-in-out infinite alternate;}
+@keyframes lc-aurora {0%{transform:translate3d(-2%,0,0) rotate(-3deg)}100%{transform:translate3d(2%,2%,0) rotate(5deg)}}
+.Root__globalNav,.Root__nav-bar,.Root__main-view,.Root__right-sidebar,.Root__now-playing-bar {position:relative;z-index:1;min-width:0;}
+.Root__globalNav {background:transparent!important;box-shadow:none!important;}
+/* Opaque app wrappers would otherwise hide the composited glass. */
+.Root__main-view .main-view-container,.Root__main-view .main-view-container__scroll-node,
+.Root__main-view .main-home-homeHeader,.Root__main-view .main-actionBarBackground-background,
+.Root__main-view .main-entityHeader-backgroundColor,.Root__main-view [data-testid="overscroll-background"],
+.Root__nav-bar .main-yourLibraryX-libraryContainer,
+.Root__right-sidebar .main-nowPlayingView-nowPlayingView,
+.Root__right-sidebar .main-nowPlayingView-nowPlayingWidget,
+.Root__now-playing-bar .main-nowPlayingBar-nowPlayingBar {background:transparent!important;}
+/* Material panels: fogged glass, metallic upper edge, soft basal shadow. */
+.Root__nav-bar,.Root__main-view,.Root__right-sidebar,.Root__now-playing-bar {position:relative;
+  border-radius:var(--lc-radius)!important;border:1px solid var(--lc-hairline)!important;
+  background:linear-gradient(155deg,rgba(255,255,255,calc(var(--lc-shine)*.19)),rgba(255,255,255,.018) 24%,transparent 48%,rgba(var(--lc-accent-rgb),calc(var(--lc-glow)*.065)) 100%),
+    linear-gradient(0deg,rgba(6,9,16,.16),transparent 22%),var(--lc-surface)!important;
+  backdrop-filter:blur(var(--lc-blur)) saturate(var(--lc-sat))!important;
+  -webkit-backdrop-filter:blur(var(--lc-blur)) saturate(var(--lc-sat))!important;
+  box-shadow:var(--lc-shadow)!important;
+  transition:background-color .28s ease,border-radius .26s ease,backdrop-filter .25s ease,box-shadow .3s ease;
+}
+.Root__nav-bar::after,.Root__main-view::after,.Root__right-sidebar::after,.Root__now-playing-bar::after {
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;z-index:4;
+  background:linear-gradient(127deg,rgba(255,255,255,calc(var(--lc-shine)*.7)),rgba(255,255,255,.06) 20%,transparent 47%,rgba(var(--lc-accent-rgb),calc(var(--lc-shine)*.28)) 78%,rgba(255,255,255,calc(var(--lc-shine)*.42)));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+}
+.Root__main-view,.Root__right-sidebar,.Root__nav-bar {overflow:hidden;}
+.Root__now-playing-bar {overflow:visible;margin:0 6px 6px!important;}
+.Root__top-container,.Root__top-container button,.Root__top-container input,.Root__top-container textarea {font-family:var(--lc-font);}
+.Root__main-view h1,.Root__main-view h2,.Root__main-view h3 {letter-spacing:-.045em;}
+.Root__main-view h1 {font-weight:780;}
+.Root__main-view h2 {font-weight:740;}
+.Root__top-container a:hover {color:var(--lc-fg);}
+/* Search and global controls */
+.Root__globalNav [data-testid="search-input"],.Root__globalNav input[type="search"],
+.Root__globalNav [role="searchbox"],.Root__globalNav .main-globalNav-searchInputContainer,
+.Root__globalNav [role="search"] > div {border-radius:999px!important;
+  background:rgba(191,205,243,.075)!important;border:1px solid rgba(234,243,255,calc(.08 + var(--lc-shine)*.15))!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.085),0 10px 25px rgba(0,0,0,.13)!important;
+}
+.Root__globalNav button {transition:background .25s ease,transform .25s var(--lc-ease);}
+.Root__globalNav button:hover {transform:translateY(-1px);}
+/* Sidebar navigation */
+.Root__nav-bar [role="listitem"],.Root__nav-bar [data-testid="rootlist-item"],
+.Root__nav-bar .main-yourLibraryX-listRow,.Root__nav-bar .main-yourLibraryX-libraryItem {
+  border-radius:var(--lc-radius-inner);transition:background .24s,transform .26s var(--lc-ease),box-shadow .24s;
+}
+.Root__nav-bar [role="listitem"]:hover,.Root__nav-bar [data-testid="rootlist-item"]:hover,
+.Root__nav-bar .main-yourLibraryX-listRow:hover,.Root__nav-bar .main-yourLibraryX-libraryItem:hover {
+  background:linear-gradient(105deg,rgba(var(--lc-accent-rgb),calc(var(--lc-glow)*.33)),rgba(255,255,255,.06))!important;
+  box-shadow:inset 2px 0 rgba(var(--lc-accent-rgb),.54);
+}
+.Root__nav-bar [aria-current="page"],.Root__nav-bar [aria-selected="true"] {background:rgba(var(--lc-accent-rgb),.16)!important;}
+.Root__nav-bar img {border-radius:calc(var(--lc-radius-inner) - 3px);}
+/* Cards and artist tiles */
+.Root__main-view .main-card-card,.Root__main-view [data-testid="card-click-handler"],
+.Root__main-view .main-card-cardContainer {border-radius:var(--lc-radius-inner)!important;transition:transform .32s var(--lc-ease),background .23s,box-shadow .3s;}
+.Root__main-view .main-card-card {padding:calc(13px * var(--lc-spacing));
+  background:linear-gradient(145deg,rgba(255,255,255,calc(var(--lc-shine)*.14)),rgba(255,255,255,.025) 50%,rgba(var(--lc-accent-rgb),calc(var(--lc-glow)*.10)))!important;
+  border:1px solid rgba(239,246,255,calc(var(--lc-shine)*.09));box-shadow:inset 0 1px rgba(255,255,255,.09),0 8px 20px rgba(0,0,0,.12)!important;
+}
+.Root__main-view .main-card-card:hover {transform:translateY(-3px);
+  background:linear-gradient(145deg,rgba(var(--lc-accent-rgb),calc(var(--lc-glow)*.43)),rgba(255,255,255,.065) 50%,rgba(255,255,255,.018))!important;
+  box-shadow:0 16px 46px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.19),0 0 0 1px rgba(var(--lc-accent-rgb),.22)!important;
+}
+.Root__main-view .main-card-card img,.Root__main-view .main-cardImage-imageWrapper img {border-radius:calc(var(--lc-radius-inner) - 5px)!important;}
+/* Tracks and playlist row hover */
+.Root__main-view [data-testid="tracklist-row"],.Root__main-view .main-trackList-trackListRow {border-radius:9px;transition:background .22s,box-shadow .22s;}
+.Root__main-view [data-testid="tracklist-row"]:hover,.Root__main-view .main-trackList-trackListRow:hover {
+  background:linear-gradient(90deg,rgba(var(--lc-accent-rgb),calc(var(--lc-glow)*.27)),rgba(255,255,255,.045))!important;box-shadow:inset 2px 0 rgba(var(--lc-accent-rgb),.54);
+}
+.Root__main-view [aria-selected="true"][data-testid="tracklist-row"] {background:rgba(var(--lc-accent-rgb),.18)!important;}
+.Root__main-view .main-trackList-trackListHeaderStuck,.Root__main-view .main-topBar-background {
+  background:rgba(11,15,24,var(--lc-glass))!important;backdrop-filter:blur(var(--lc-blur))!important;border-bottom:1px solid var(--lc-hairline);
+}
+/* Player: luminous alloy central control, native seeking remains interactive. */
+.Root__now-playing-bar .main-nowPlayingBar-nowPlayingBar {border:0!important;}
+.Root__now-playing-bar button[data-testid="control-button-playpause"],.Root__main-view button[data-testid="play-button"],
+.Root__main-view .main-playButton-PlayButton {background:linear-gradient(148deg,#ffffff 0%,#e0e6f4 25%,#a6afc6 52%,#f5f9ff 79%,#9eaac4 100%)!important;
+  border:1px solid rgba(255,255,255,.62)!important;color:#11192a!important;
+  box-shadow:inset 0 2px rgba(255,255,255,.78),inset 0 -2px 3px rgba(16,28,49,.24),0 7px 17px rgba(0,0,0,.36),0 0 calc(12px + 20px * var(--lc-glow)) rgba(var(--lc-accent-rgb),calc(var(--lc-glow)*.35))!important;
+  transition:transform .2s var(--lc-ease),box-shadow .23s;
+}
+.Root__now-playing-bar button[data-testid="control-button-playpause"] svg,.Root__main-view button[data-testid="play-button"] svg {fill:currentColor!important;color:#11192a!important;}
+.Root__now-playing-bar button[data-testid="control-button-playpause"]:hover,.Root__main-view button[data-testid="play-button"]:hover {transform:scale(1.06);}
+.Root__now-playing-bar .main-trackInfo-container img,.Root__now-playing-bar [data-testid="cover-art-image"] {border-radius:calc(var(--lc-radius-inner) - 3px)!important;box-shadow:0 8px 20px rgba(0,0,0,.3);}
+.Root__now-playing-bar [data-testid="playback-position"],.Root__now-playing-bar [data-testid="playback-duration"] {font-variant-numeric:tabular-nums;}
+.Root__now-playing-bar .progress-bar__bg,.Root__now-playing-bar .volume-bar__bg,
+.Root__now-playing-bar .progress-bar__slider,.Root__now-playing-bar .volume-bar__slider {border-radius:99px;background:rgba(199,214,240,.17)!important;}
+.Root__now-playing-bar .progress-bar__fg,.Root__now-playing-bar .volume-bar__fg {border-radius:99px;
+  background:linear-gradient(90deg,var(--lc-accent),rgba(240,246,255,.96))!important;
+  box-shadow:0 0 calc(5px + 11px * var(--lc-glow)) rgba(var(--lc-accent-rgb),.5);
+}
+/* Pills, toggles, menu: quiet luxury, not a neon Christmas tree. */
+.Root__main-view button[aria-pressed="true"],.Root__nav-bar button[aria-pressed="true"],
+.Root__now-playing-bar button[aria-checked="true"],.Root__top-container [role="switch"][aria-checked="true"] {color:var(--lc-accent)!important;}
+.Root__main-view .main-chip-chip,.Root__main-view [data-testid="filter-pill"],
+.Root__nav-bar .main-yourLibraryX-filterButton {border-radius:999px!important;}
+.Root__main-view .main-chip-chip[aria-selected="true"],.Root__main-view button[aria-checked="true"] {
+  background:var(--lc-accent)!important;color:var(--lc-accent-ink)!important;
+}
+.Root__main-view button[aria-checked="true"] * {color:var(--lc-accent-ink)!important;}
+.tippy-box,.main-contextMenu-menu,#context-menu,[data-encore-id="popover"],[role="menu"],[role="dialog"]:not(#lc-settings) {
+  border-radius:var(--lc-radius-inner)!important;border:1px solid var(--lc-hairline)!important;
+  background:linear-gradient(148deg,rgba(255,255,255,calc(var(--lc-shine)*.13)),transparent 46%),rgba(18,21,33,.96)!important;
+  box-shadow:0 24px 70px rgba(0,0,0,.48),inset 0 1px rgba(255,255,255,.1)!important;backdrop-filter:blur(var(--lc-blur));
+}
+[role="menuitem"] {border-radius:9px;}
+[role="menuitem"]:hover {background:rgba(var(--lc-accent-rgb),.16)!important;}
+.Root__right-sidebar img {border-radius:var(--lc-radius-inner);box-shadow:0 12px 29px rgba(0,0,0,.2);}
+.Root__main-view :is(button,a,[role="button"]):focus-visible,.Root__nav-bar :is(button,a):focus-visible,
+.Root__now-playing-bar button:focus-visible {outline:2px solid var(--lc-accent)!important;outline-offset:3px;}
+.Root__main-view ::-webkit-scrollbar,.Root__nav-bar ::-webkit-scrollbar,.Root__right-sidebar ::-webkit-scrollbar {width:7px;}
+.Root__main-view ::-webkit-scrollbar-thumb,.Root__nav-bar ::-webkit-scrollbar-thumb,.Root__right-sidebar ::-webkit-scrollbar-thumb {background:rgba(206,216,239,.22);border-radius:99px;}
+/* Compact density is intentionally visible, without rearranging Spotify's columns. */
+:root[data-lc-density="compact"] {--lc-spacing:.70;}
+:root[data-lc-density="compact"] .Root__main-view .main-card-card {padding:7px!important;}
+:root[data-lc-density="compact"] .Root__nav-bar .main-yourLibraryX-listRow {padding-top:4px!important;padding-bottom:4px!important;}
+:root[data-lc-finish="obsidian"] .Root__main-view,:root[data-lc-finish="obsidian"] .Root__nav-bar {background:linear-gradient(135deg,rgba(255,255,255,.085),transparent 31%),rgba(4,7,13,var(--lc-glass))!important;}
+/* Small-window adaptations don't override user settings. */
+@media(max-width:1100px){.Root__now-playing-bar{margin:0 4px 4px!important;}.Root__main-view .main-card-card:hover{transform:translateY(-1px);}}
+@media(max-width:750px){.Root__top-container::before{display:none;}.Root__now-playing-bar{margin:0 2px 2px!important;}.Root__nav-bar::after,.Root__main-view::after,.Root__right-sidebar::after{opacity:.65;}}
+@media(prefers-reduced-motion:reduce){.Root__top-container::before{animation:none!important;}.Root__main-view .main-card-card,.Root__now-playing-bar button{transition-duration:.001ms!important;transform:none!important;}}
+
+/* LIQUID CHROME / Studio — self-contained control interface. */
+#lc-host,#lc-host * {box-sizing:border-box;}
+#lc-host {position:fixed;inset:0;z-index:2147483000;pointer-events:none;color:#f0f2ff;font:13px/1.5 var(--lc-font);}
+#lc-host.lc-open {pointer-events:auto;}
+#lc-host .lc-scrim {position:absolute;inset:0;background:rgba(1,3,10,.64);opacity:0;transition:opacity .28s ease;}
+#lc-host.lc-open .lc-scrim {opacity:1;}
+#lc-host .lc-panel {position:absolute;right:16px;top:14px;bottom:14px;width:min(440px,calc(100vw - 32px));
+  border-radius:25px;border:1px solid rgba(225,235,255,.23);
+  background:linear-gradient(147deg,rgba(255,255,255,.15),transparent 27%),linear-gradient(165deg,rgba(24,29,45,.98),rgba(10,14,24,.99) 72%);
+  box-shadow:0 22px 85px #000b,inset 0 1px rgba(255,255,255,.15);backdrop-filter:blur(26px);
+  transform:translateX(calc(100% + 50px));visibility:hidden;transition:transform .39s cubic-bezier(.16,1,.3,1),visibility .39s;overflow:hidden;display:flex;flex-direction:column;}
+#lc-host.lc-open .lc-panel {transform:translateX(0);visibility:visible;}
+#lc-host .lc-header {padding:27px 26px 20px;display:flex;align-items:start;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.09);}
+#lc-host .lc-overline {color:#b2bdda;font-size:10px;letter-spacing:.22em;font-weight:800;margin-bottom:9px;}
+#lc-host h2 {font-size:27px;font-weight:800;letter-spacing:-.065em;margin:0;line-height:1.1;color:#f3f6ff;}
+#lc-host h2 i {font-style:normal;color:#c1bafe;}
+#lc-host .lc-close {width:37px;height:37px;border-radius:50%;color:#f8faff;background:#ffffff12;border:1px solid #ffffff26;cursor:pointer;font-size:21px;}
+#lc-host .lc-body {padding:21px 26px 25px;flex:1;overflow-y:auto;scrollbar-color:#4a5266 transparent;scrollbar-width:thin;display:flex;flex-direction:column;gap:22px;}
+#lc-host .lc-live {display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #ffffff23;border-radius:15px;padding:12px 14px;
+  background:linear-gradient(110deg,rgba(var(--lc-accent-rgb),.11),#ffffff08);}
+#lc-host .lc-live strong {font-size:11px;letter-spacing:.08em;text-transform:uppercase;}
+#lc-host .lc-live small {font-size:10px;color:#afb8d2;}
+#lc-host .lc-orb {height:40px;width:40px;border-radius:50%;flex-shrink:0;background:radial-gradient(circle at 29% 23%,#fff 0%,var(--lc-accent) 19%,#3a4358 56%,#050813 80%);box-shadow:inset -3px -4px 7px #02040b99,0 0 24px rgba(var(--lc-accent-rgb),calc(var(--lc-glow)*.75));}
+#lc-host .lc-section {display:flex;flex-direction:column;gap:11px;}
+#lc-host .lc-caption {font-size:10px;letter-spacing:.2em;font-weight:850;color:#b2bede;text-transform:uppercase;}
+#lc-host .lc-sub {font-size:11px;line-height:1.5;color:#9da9c3;}
+#lc-host .lc-chiprow {display:flex;flex-wrap:wrap;gap:7px;}
+#lc-host button {font:inherit;cursor:pointer;}
+#lc-host .lc-chip {font-size:11px;font-weight:750;color:#cbd2e6;border:1px solid #ffffff26;background:#ffffff0c;border-radius:10px;padding:9px 12px;transition:background .18s,transform .18s;}
+#lc-host .lc-chip:hover {background:#ffffff18;transform:translateY(-1px);}
+#lc-host .lc-chip[aria-pressed="true"] {background:var(--lc-accent);color:var(--lc-accent-ink);border-color:transparent;}
+#lc-host .lc-swatches {display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;}
+#lc-host .lc-swatch {width:100%;aspect-ratio:1;border-radius:12px;border:2px solid transparent;background:var(--swatch);box-shadow:inset 0 1px rgba(255,255,255,.4),0 8px 19px #0003;}
+#lc-host .lc-swatch[aria-pressed="true"] {outline:2px solid #fff;outline-offset:2px;transform:scale(.94);}
+#lc-host .lc-field {display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;font-weight:650;color:#e0e5f4;}
+#lc-host .lc-range {display:grid;grid-template-columns:1fr 45px;align-items:center;gap:14px;}
+#lc-host input[type="range"] {width:100%;accent-color:var(--lc-accent);cursor:pointer;}
+#lc-host input[type="color"] {height:33px;width:46px;border-radius:9px;background:#ffffff15;padding:2px;border:1px solid #ffffff38;cursor:pointer;}
+#lc-host output {text-align:right;color:#b6c2dd;font-size:11px;font-variant-numeric:tabular-nums;}
+#lc-host .lc-divider {border:0;border-top:1px solid #ffffff17;margin:0;}
+#lc-host .lc-row {display:flex;align-items:center;justify-content:space-between;gap:12px;}
+#lc-host .lc-row label {font-size:12px;}
+#lc-host input[type="checkbox"] {width:18px;height:18px;accent-color:var(--lc-accent);cursor:pointer;}
+#lc-host .lc-reset {background:transparent;color:#c8d0e4;border:1px solid #ffffff29;padding:12px;border-radius:11px;}
+#lc-host .lc-reset:hover {background:#ffffff12;}
+#lc-host .lc-footer {padding:15px 26px;border-top:1px solid #ffffff15;color:#8e9bb7;font-size:10px;display:flex;justify-content:space-between;}
+#lc-host :is(button,input):focus-visible {outline:2px solid var(--lc-accent);outline-offset:3px;}
+#lc-launch {position:fixed;right:11px;top:51%;transform:translateY(-50%);z-index:2147482900;display:grid;place-items:center;
+  width:35px;height:48px;background:linear-gradient(160deg,#f5f7ff,#9da7bf 53%,#5d6c91);border:1px solid #fff6;border-radius:13px 4px 4px 13px;
+  box-shadow:0 8px 24px #0008;color:#111525;opacity:.55;cursor:pointer;font-size:20px;transition:opacity .2s,width .2s;}
+#lc-launch:hover,#lc-launch:focus-visible {opacity:1;width:44px;}
+@media(max-width:650px){#lc-host .lc-panel{inset:0;width:100%;border-radius:0;}#lc-host .lc-body{padding:16px 21px;}#lc-launch{top:40%;}}
+@media(prefers-reduced-motion:reduce){#lc-host .lc-scrim,#lc-host .lc-panel{transition:none;}}

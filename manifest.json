@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Liquid Chrome",
+    "description": "Polished liquid-metal Spotify theme with iridescent glass, chromatic glow, premium controls and seven coordinated color schemes.",
+    "preview": "screenshots/desktop.png",
+    "usercss": "LiquidChrome/user.css",
+    "schemes": "LiquidChrome/color.ini",
+    "readme": "README.md",
+    "tags": ["dark", "glass", "metal", "minimal", "premium"]
+  },
+  {
+    "name": "Liquid Chrome Studio",
+    "description": "Live controls for Liquid Chrome: glass opacity, blur, glow, mirror finishes, accent colors, album-aware color and compact layout. Works even without theme CSS.",
+    "preview": "screenshots/studio.png",
+    "main": "LiquidChrome-Controls.js",
+    "readme": "README.md",
+    "tags": ["customization", "appearance", "themes"]
+  }
+]
